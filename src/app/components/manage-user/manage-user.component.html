@@ -1,0 +1,9 @@
+<div *ngIf="!(userId$ | async)">
+    <form>
+        <div class="form-group">
+            <label for="pseudo">Entre ton pseudo (pas celui de ton perso)</label>
+            <input type="text" class="form-control" id="pseudo" aria-describedby="" placeholder="MonPseudo">
+        </div>
+        <button type="submit" class="btn btn-primary">GO</button>
+    </form>
+</div>

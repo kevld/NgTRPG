@@ -1,0 +1,73 @@
+<div *ngIf="!(currentStep$ | async)">
+    <h2>Nom du personnage</h2>
+    <form [formGroup]="formName">
+        <div class="form-group">
+            <label for="character-name">Entre le nom de ton personnage (jeu de mot autorisé)</label>
+            <input type="text" class="form-control" id="character-name" aria-describedby="" formControlName="name" placeholder="Yves Remords">
+        </div>
+        <button type="button" class="btn btn-primary" (click)="nextStep(0)">GO</button>
+    </form>
+</div>
+<div *ngIf="(currentStep$ | async) == 1">
+    <h2>Stats de base du personnage</h2>
+    <form [formGroup]="formBase">
+        <div class="form-group">
+            <label for="courage">Courage</label>
+            <input type="number" class="form-control" id="courage" aria-describedby="" formControlName="courage" placeholder="1">
+        </div>
+        <div class="form-group">
+            <label for="intelligence">Intelligence</label>
+            <input type="number" class="form-control" id="intelligence" aria-describedby="" formControlName="intelligence" placeholder="1">
+        </div>
+        <div class="form-group">
+            <label for="loyalty">Loyalty</label>
+            <input type="number" class="form-control" id="loyalty" aria-describedby="" formControlName="loyalty" placeholder="1">
+        </div>
+        <div class="form-group">
+            <label for="tricking">Tricking</label>
+            <input type="number" class="form-control" id="tricking" aria-describedby="" formControlName="tricking" placeholder="1">
+        </div>
+        <button type="submit" class="btn btn-primary" (click)="nextStep(1)">GO</button>
+    </form>
+</div>
+
+<div *ngIf="(currentStep$ | async) == 2">
+    <h2>Stats de magie du personnage</h2>
+    <form [formGroup]="formMagic">
+        <div class="form-group">
+            <label for="potion-magic">Potions</label>
+            <input type="number" class="form-control" id="potion-magic" aria-describedby="" formControlName="potion" placeholder="1">
+        </div>
+        <div class="form-group">
+            <label for="charms-magic">Sortillèges et métamorphose</label>
+            <input type="number" class="form-control" id="charms-magic" aria-describedby="" formControlName="charms" placeholder="1">
+        </div>
+        <div class="form-group">
+            <label for="atk-def">Défense contre les forces du mal (et l'attaque aussi, parce que la meilleure défense c'est l'attaque)</label>
+            <input type="number" class="form-control" id="atk-def" aria-describedby="" formControlName="atkdef" placeholder="1">
+        </div>
+        <button type="submit" class="btn btn-primary" (click)="nextStep(2)">GO</button>
+    </form>
+</div>
+<div *ngIf="(currentStep$ | async) == 3">
+    <h2>Bagette</h2>
+    <form [formGroup]="formWand">
+        <div class="form-group">
+            <label for="heart">Coeur</label>
+            <input type="number" class="form-control" id="heart" aria-describedby="" formControlName="heart" placeholder="1">
+        </div>
+        <div class="form-group">
+            <label for="wood">Bois</label>
+            <input type="number" class="form-control" id="wood" aria-describedby="" formControlName="wood" placeholder="1">
+        </div>
+        <div class="form-group">
+            <label for="rigidity">Rigidité</label>
+            <input type="number" class="form-control" id="rigidity" aria-describedby="" formControlName="rigidity" placeholder="1">
+        </div>
+        <div class="form-group">
+            <label for="size">Taille (ça compte)</label>
+            <input type="number" class="form-control" id="size" aria-describedby="" formControlName="size" placeholder="1">
+        </div>
+        <button type="submit" class="btn btn-primary" (click)="nextStep(3)">GO</button>
+    </form>
+</div>
