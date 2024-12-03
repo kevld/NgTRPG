@@ -1,7 +1,6 @@
-import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { HouseType } from '../../enums/housetype';
 import { IAddBaseStats } from '../../models/iaddbasestats';
 import { IAddMagicStats } from '../../models/iaddmagicstats';
 import { ICharacter } from '../../models/icharacter';
@@ -12,7 +11,7 @@ import { IWandStats } from '../../models/iwandstats';
     providedIn: 'root'
 })
 export class CharacterService {
-    private http: HttpClient = inject(HttpClient);
+    private readonly http: HttpClient = inject(HttpClient);
 
     getCharacterByUserId(userId: string): Observable<ICharacter> {
         return this.http.get<ICharacter>(`http://localhost:5277/character/user/${userId}`);

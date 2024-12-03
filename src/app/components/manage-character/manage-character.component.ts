@@ -15,7 +15,6 @@ import { UserState } from '../../states/user.state';
     standalone: true,
     imports: [CommonModule, SpellComponent],
     templateUrl: './manage-character.component.html',
-    styleUrl: './manage-character.component.scss',
 })
 export class ManageCharacterComponent implements OnInit {
     private readonly store: Store = inject(Store);

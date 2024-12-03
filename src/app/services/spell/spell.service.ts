@@ -8,7 +8,7 @@ import { ISpell } from '../../models/ispell';
 })
 export class SpellService {
 
-    private http: HttpClient = inject(HttpClient);
+    private readonly http: HttpClient = inject(HttpClient);
 
     getSpells(): Observable<ISpell[]> {
         return this.http.get<ISpell[]>("http://localhost:5277/spell");

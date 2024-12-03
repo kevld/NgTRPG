@@ -5,7 +5,6 @@ import { Component } from '@angular/core';
   standalone: true,
   imports: [],
   templateUrl: './game-master.component.html',
-  styleUrl: './game-master.component.scss'
 })
 export class GameMasterComponent {
 

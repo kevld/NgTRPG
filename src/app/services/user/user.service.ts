@@ -9,7 +9,7 @@ import { ICharacter } from '../../models/icharacter';
 })
 export class UserService {
 
-  private http: HttpClient = inject(HttpClient);
+  private readonly http: HttpClient = inject(HttpClient);
 
   createUser(name: string): Observable<IUser> {
     return this.http.post<IUser>("http://localhost:5277/user", JSON.stringify(name), {

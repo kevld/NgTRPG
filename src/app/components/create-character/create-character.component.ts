@@ -16,13 +16,12 @@ import { IWandStats } from '../../models/iwandstats';
     standalone: true,
     imports: [CommonModule, ReactiveFormsModule],
     templateUrl: './create-character.component.html',
-    styleUrl: './create-character.component.scss'
 })
 export class CreateCharacterComponent implements OnInit {
 
 
-    private store: Store = inject(Store);
-    private router: Router = inject(Router);
+    private readonly store: Store = inject(Store);
+    private readonly router: Router = inject(Router);
 
     isCreated$: Observable<boolean> = this.store.select<boolean>(CharacterState.isCreated);
     currentStep$: Observable<number> = this.store.select<number>(CharacterState.currentStep);
@@ -56,7 +55,7 @@ export class CreateCharacterComponent implements OnInit {
 
         if (!userId)
             this.router.navigateByUrl("manage-user");
-        else 
+        else
             this.store.dispatch(new GetCharacterByUserAction(userId));
 
         this.isCreated$.subscribe(x => {
@@ -74,36 +73,36 @@ export class CreateCharacterComponent implements OnInit {
             }
         } else if (finishedStep == 1) {
             const characterStr: string | undefined = this.store.selectSnapshot<number | undefined>(CharacterState.characterId)?.toString();
-            const characterId: number = parseInt(characterStr ?? "0");
+            const characterId: number = parseInt(characterStr!);
 
             const stats: IAddBaseStats = {
-                Courage: parseInt(this.formBase.get('courage')?.value ?? '0'),
-                Intelligence: parseInt(this.formBase.get('intelligence')?.value ?? '0'),
-                Loyalty: parseInt(this.formBase.get('loyalty')?.value ?? '0'),
-                Tricking: parseInt(this.formBase.get('tricking')?.value ?? '0')
+                Courage: parseInt(this.formBase.get('courage')?.value!),
+                Intelligence: parseInt(this.formBase.get('intelligence')?.value!),
+                Loyalty: parseInt(this.formBase.get('loyalty')?.value!),
+                Tricking: parseInt(this.formBase.get('tricking')?.value!)
             }
 
             this.store.dispatch(new AddBaseStatsAction(characterId, stats));
         } else if (finishedStep == 2) {
             const characterStr: string | undefined = this.store.selectSnapshot<number | undefined>(CharacterState.characterId)?.toString();
-            const characterId: number = parseInt(characterStr ?? "0");
+            const characterId: number = parseInt(characterStr!);
 
             const stats: IAddMagicStats = {
-                PotionMagic: parseInt(this.formMagic.get('potion')?.value ?? '0'),
-                CharmsAndMetamorphosisMagic: parseInt(this.formMagic.get('charms')?.value ?? '0'),
-                AttackAndDefenseMagic: parseInt(this.formMagic.get('atkdef')?.value ?? '0'),
+                PotionMagic: parseInt(this.formMagic.get('potion')?.value!),
+                CharmsAndMetamorphosisMagic: parseInt(this.formMagic.get('charms')?.value!),
+                AttackAndDefenseMagic: parseInt(this.formMagic.get('atkdef')?.value!),
             }
 
             this.store.dispatch(new AddMagicStatsAction(characterId, stats));
         } else if (finishedStep == 3) {
             const characterStr: string | undefined = this.store.selectSnapshot<number | undefined>(CharacterState.characterId)?.toString();
-            const characterId: number = parseInt(characterStr ?? "0");
+            const characterId: number = parseInt(characterStr!);
 
             const stats: IWandStats = {
-                WandHeartType: parseInt(this.formWand.get('heart')?.value ?? '0'),
-                Rigidity: this.formWand.get('rigidity')?.value ?? "",
-                Wood: this.formWand.get('wood')?.value ?? "",
-                Size: this.formWand.get('size')?.value ?? ""
+                WandHeartType: parseInt(this.formWand.get('heart')?.value!),
+                Rigidity: this.formWand.get('rigidity')?.value!,
+                Wood: this.formWand.get('wood')?.value!,
+                Size: this.formWand.get('size')?.value!
             }
 
             this.store.dispatch(new AddWandAction(characterId, stats));

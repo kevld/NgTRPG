@@ -16,7 +16,6 @@ import {
     standalone: true,
     imports: [FontAwesomeModule],
     templateUrl: './spell.component.html',
-    styleUrl: './spell.component.scss',
 })
 export class SpellComponent implements OnInit {
     @Input() spell!: ISpell;

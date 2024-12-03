@@ -5,9 +5,6 @@ import { CreateUserAction } from '../../actions/user.actions';
 import { Observable } from 'rxjs';
 import { UserState } from '../../states/user.state';
 import { CommonModule } from '@angular/common';
-import { ICharacter } from '../../models/icharacter';
-import { CharacterState } from '../../states/character.state';
-import { IUser } from '../../models/iuser';
 import { Router } from '@angular/router';
 
 @Component({
@@ -15,7 +12,6 @@ import { Router } from '@angular/router';
     standalone: true,
     imports: [ReactiveFormsModule, CommonModule],
     templateUrl: './manage-user.component.html',
-    styleUrl: './manage-user.component.scss'
 })
 export class ManageUserComponent implements OnInit {
 
@@ -36,7 +32,7 @@ export class ManageUserComponent implements OnInit {
 
     ngOnInit(): void {
         this.userId$.subscribe(x => {
-            
+
             if (x && x != "")
                 this.router.navigateByUrl("/create-character");
         });
