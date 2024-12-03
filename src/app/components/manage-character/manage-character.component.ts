@@ -22,6 +22,9 @@ export class ManageCharacterComponent implements OnInit {
 
     selectedHouse: number = 0;
 
+    basePointsToAdd: number = 0;
+    magicPointsToAdd: number = 0;
+
     character$: Observable<ICharacter | undefined> = this.store.select<
         ICharacter | undefined
     >(CharacterState.character);
