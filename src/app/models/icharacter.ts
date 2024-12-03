@@ -1,6 +1,7 @@
 import { HouseType } from "../enums/housetype";
 import { ISpell } from "./ispell";
 import { IUser } from "./iuser";
+import { IWandStats } from "./iwandstats";
 
 export interface ICharacter {
     id: number;
@@ -20,4 +21,5 @@ export interface ICharacter {
     unlockedSpells: ISpell[];
     user: IUser;
     userId: string;
+    wand: IWandStats
 }

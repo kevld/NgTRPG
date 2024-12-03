@@ -5,8 +5,8 @@ import { Observable } from 'rxjs';
 import { CharacterState } from '../../states/character.state';
 import { UserState } from '../../states/user.state';
 import { Router } from '@angular/router';
-import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
-import { AddBaseStatsAction, AddMagicStatsAction, AddWandAction, CreateCharacterAction } from '../../actions/character.actions';
+import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { AddBaseStatsAction, AddMagicStatsAction, AddWandAction, CreateCharacterAction, GetCharacterByUserAction } from '../../actions/character.actions';
 import { IAddBaseStats } from '../../models/iaddbasestats';
 import { IAddMagicStats } from '../../models/iaddmagicstats';
 import { IWandStats } from '../../models/iwandstats';
@@ -45,15 +45,24 @@ export class CreateCharacterComponent implements OnInit {
     });
 
     formWand = new FormGroup({
-        heart: new FormControl(''),
+        heart: new FormControl('0', [Validators.required]),
         wood: new FormControl(''),
         rigidity: new FormControl(''),
         size: new FormControl('')
     });
 
     ngOnInit(): void {
-        if (!this.store.selectSnapshot(UserState.userId))
+        const userId: string | undefined = this.store.selectSnapshot(UserState.userId);
+
+        if (!userId)
             this.router.navigateByUrl("manage-user");
+        else 
+            this.store.dispatch(new GetCharacterByUserAction(userId));
+
+        this.isCreated$.subscribe(x => {
+            if(x)
+                this.router.navigateByUrl("manage-character");
+        })
     }
 
     nextStep(finishedStep: number) {
@@ -68,10 +77,10 @@ export class CreateCharacterComponent implements OnInit {
             const characterId: number = parseInt(characterStr ?? "0");
 
             const stats: IAddBaseStats = {
-                Courage: this.formName.get('courage')?.value ?? 0,
-                Intelligence: this.formName.get('intelligence')?.value ?? 0,
-                Loyalty: this.formName.get('loyalty')?.value ?? 0,
-                Tricking: this.formName.get('tricking')?.value ?? 0
+                Courage: parseInt(this.formBase.get('courage')?.value ?? '0'),
+                Intelligence: parseInt(this.formBase.get('intelligence')?.value ?? '0'),
+                Loyalty: parseInt(this.formBase.get('loyalty')?.value ?? '0'),
+                Tricking: parseInt(this.formBase.get('tricking')?.value ?? '0')
             }
 
             this.store.dispatch(new AddBaseStatsAction(characterId, stats));
@@ -80,9 +89,9 @@ export class CreateCharacterComponent implements OnInit {
             const characterId: number = parseInt(characterStr ?? "0");
 
             const stats: IAddMagicStats = {
-                PotionMagic: this.formName.get('potion')?.value ?? 0,
-                CharmsAndMetamorphosisMagic: this.formName.get('charms')?.value ?? 0,
-                AttackAndDefenseMagic: this.formName.get('atkdef')?.value ?? 0,
+                PotionMagic: parseInt(this.formMagic.get('potion')?.value ?? '0'),
+                CharmsAndMetamorphosisMagic: parseInt(this.formMagic.get('charms')?.value ?? '0'),
+                AttackAndDefenseMagic: parseInt(this.formMagic.get('atkdef')?.value ?? '0'),
             }
 
             this.store.dispatch(new AddMagicStatsAction(characterId, stats));
@@ -91,10 +100,10 @@ export class CreateCharacterComponent implements OnInit {
             const characterId: number = parseInt(characterStr ?? "0");
 
             const stats: IWandStats = {
-                WandHeartType: this.formName.get('heart')?.value ?? 0,
-                Rigidity: this.formName.get('rigidity')?.value ?? "",
-                Wood: this.formName.get('wood')?.value ?? "",
-                Size: this.formName.get('size')?.value ?? ""
+                WandHeartType: parseInt(this.formWand.get('heart')?.value ?? '0'),
+                Rigidity: this.formWand.get('rigidity')?.value ?? "",
+                Wood: this.formWand.get('wood')?.value ?? "",
+                Size: this.formWand.get('size')?.value ?? ""
             }
 
             this.store.dispatch(new AddWandAction(characterId, stats));

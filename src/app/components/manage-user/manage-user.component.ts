@@ -1,5 +1,5 @@
 import { Component, inject, OnInit } from '@angular/core';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { Store } from '@ngxs/store';
 import { CreateUserAction } from '../../actions/user.actions';
 import { Observable } from 'rxjs';
@@ -23,19 +23,22 @@ export class ManageUserComponent implements OnInit {
     private readonly router: Router = inject(Router);
 
     userId$: Observable<string | undefined> = this.store.select(UserState.userId);
-    character$: Observable<ICharacter | undefined> = this.store.select(CharacterState.character);
 
-    username?: string;
+    formName = new FormGroup({
+        name: new FormControl(''),
+    });
 
     createUser(): void {
-        if (this.username && this.username != "")
-            this.store.dispatch(new CreateUserAction(this.username));
+        const username = this.formName.get('name')?.value ?? "";
+        if (username && username != "")
+            this.store.dispatch(new CreateUserAction(username));
     }
 
     ngOnInit(): void {
-        const user: IUser | undefined = this.store.selectSnapshot<IUser | undefined>(UserState.user);
-        if(user) {
-            this.router.navigateByUrl("create-character");
-        }
+        this.userId$.subscribe(x => {
+            
+            if (x && x != "")
+                this.router.navigateByUrl("/create-character");
+        });
     }
 }

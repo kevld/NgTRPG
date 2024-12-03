@@ -3,7 +3,7 @@ export class CreateUserAction {
     constructor(public name: string) { }
 }
 
-export class GetCharacterIdByUserIdAction {
-    static readonly type = '[User] GetCharacterIdByUserIdAction';
+export class GetCharacterByUserIdAction {
+    static readonly type = '[User] GetCharacterByUserIdAction';
     constructor(public userId: string) { }
 }

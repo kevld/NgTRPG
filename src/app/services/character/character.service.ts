@@ -1,11 +1,12 @@
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { HouseType } from '../../enums/housetype';
 import { IAddBaseStats } from '../../models/iaddbasestats';
 import { IAddMagicStats } from '../../models/iaddmagicstats';
-import { ICharacter } from '../../models/ICharacter';
+import { ICharacter } from '../../models/icharacter';
 import { IIsCharacterCreated } from '../../models/iischaractercreated';
+import { IWandStats } from '../../models/iwandstats';
 
 @Injectable({
     providedIn: 'root'
@@ -13,41 +14,35 @@ import { IIsCharacterCreated } from '../../models/iischaractercreated';
 export class CharacterService {
     private http: HttpClient = inject(HttpClient);
 
-    getCharacterByName(name: string): Observable<ICharacter> {
-        return this.http.get<ICharacter>(`http://localhost:5277/character/${name}`);
+    getCharacterByUserId(userId: string): Observable<ICharacter> {
+        return this.http.get<ICharacter>(`http://localhost:5277/character/user/${userId}`);
     }
 
     createCharacter(userId: string, characterName: string): Observable<ICharacter> {
-        const params: HttpParams = new HttpParams();
-        params.append("name", characterName);
-
-        return this.http.post<ICharacter>(`http://localhost:5277/character/${userId}`, params);
+        return this.http.post<ICharacter>(`http://localhost:5277/character/${userId}`, JSON.stringify(characterName), {
+            headers: { 'Content-Type': 'application/json' }
+        });
     }
 
-    setHouse(characterId: number, houseType: HouseType): Observable<ICharacter> {
-        const params: HttpParams = new HttpParams();
-        params.append("houseType", houseType);
+    setHouse(characterId: number, houseType: number): Observable<ICharacter> {
 
-        return this.http.put<ICharacter>(`http://localhost:5277/character/${characterId}/set-house`, params);
+        return this.http.put<ICharacter>(`http://localhost:5277/character/${characterId}/set-house`, JSON.stringify(houseType), {
+            headers: { 'Content-Type': 'application/json' }
+        });
     }
 
     addBaseStats(characterId: number, addBaseStats: IAddBaseStats): Observable<ICharacter> {
-        const params: HttpParams = new HttpParams();
-        params.append("Courage", addBaseStats.Courage);
-        params.append("Intelligence", addBaseStats.Intelligence);
-        params.append("Loyalty", addBaseStats.Loyalty);
-        params.append("Tricking", addBaseStats.Tricking);
-
-        return this.http.put<ICharacter>(`http://localhost:5277/character/${characterId}/init-stat/base`, params);
+        return this.http.put<ICharacter>(`http://localhost:5277/character/${characterId}/init-stat/base`, addBaseStats);
     }
 
     addMagicStats(characterId: number, addMagicStats: IAddMagicStats): Observable<ICharacter> {
-        const params: HttpParams = new HttpParams();
-        params.append("AttackAndDefenseMagic", addMagicStats.AttackAndDefenseMagic);
-        params.append("CharmsAndMetamorphosisMagic", addMagicStats.CharmsAndMetamorphosisMagic);
-        params.append("PotionMagic", addMagicStats.PotionMagic);
+        return this.http.put<ICharacter>(`http://localhost:5277/character/${characterId}/init-stat/magic`, addMagicStats);
+    }
 
-        return this.http.put<ICharacter>(`http://localhost:5277/character/${characterId}/init-stat/magic`, params);
+    addWandStats(characterId: number, addWandStats: IWandStats): Observable<ICharacter> {
+        return this.http.post<ICharacter>(`http://localhost:5277/character/${characterId}/wand/add`,
+            addWandStats
+        );
     }
 
     unlockSpell(characterId: number, spellId: number): Observable<ICharacter> {

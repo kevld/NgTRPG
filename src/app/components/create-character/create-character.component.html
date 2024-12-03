@@ -54,19 +54,24 @@
     <form [formGroup]="formWand">
         <div class="form-group">
             <label for="heart">Coeur</label>
-            <input type="number" class="form-control" id="heart" aria-describedby="" formControlName="heart" placeholder="1">
+            <select class="form-select" aria-label="Choisir..." formControlName="heart">
+                <option value="0">Plume de Phoénix</option>
+                <option value="1">Ventricule de dragon</option>
+                <option value="2">Crin de licorne</option>
+              </select>
+            <!-- <input type="number" class="form-control" required id="heart" aria-describedby="" formControlName="heart" placeholder="Choisir..."> -->
         </div>
         <div class="form-group">
             <label for="wood">Bois</label>
-            <input type="number" class="form-control" id="wood" aria-describedby="" formControlName="wood" placeholder="1">
+            <input type="text" class="form-control" id="wood" aria-describedby="" formControlName="wood" placeholder="Erable, Chène, Contreplaqué Ikea">
         </div>
         <div class="form-group">
             <label for="rigidity">Rigidité</label>
-            <input type="number" class="form-control" id="rigidity" aria-describedby="" formControlName="rigidity" placeholder="1">
+            <input type="text" class="form-control" id="rigidity" aria-describedby="" formControlName="rigidity" placeholder="Extrèmement rigide, maléable souple, demi mo...">
         </div>
         <div class="form-group">
             <label for="size">Taille (ça compte)</label>
-            <input type="number" class="form-control" id="size" aria-describedby="" formControlName="size" placeholder="1">
+            <input type="text" class="form-control" id="size" aria-describedby="" formControlName="size" placeholder="...">
         </div>
         <button type="submit" class="btn btn-primary" (click)="nextStep(3)">GO</button>
     </form>

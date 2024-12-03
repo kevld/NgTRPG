@@ -1,1 +1,83 @@
-<p>manage-character works!</p>
+<h1>{{ (character$ | async)?.name }} </h1>
+
+<div class="row">
+    <div class="col-md-6">
+        <div class="card mb-4">
+            <div class="card-body">
+                Vie : {{ (character$ | async)?.lifePoints }} / {{ (character$ | async)?.maxLifePoints }}
+            </div>
+        </div>
+        <div class="card mb-4">
+            <div class="card-body">
+                <p>Courage : {{ (character$ | async)?.courage }}</p>
+                <p>Intelligence : {{ (character$ | async)?.intelligence }}</p>
+                <p>Loyauté : {{ (character$ | async)?.loyalty }}</p>
+                <p>Ruse : {{ (character$ | async)?.tricking }}</p>
+            </div>
+        </div>
+        <div class="card mb-4" *ngIf="(character$ | async)?.wand">
+            <div class="card-body">
+                <p>
+                    Ma baguette : Coeur : {{ displayWandHeart((character$ | async)?.wand!.WandHeartType)}} <br>
+                    Bois : {{ (character$ | async)?.wand?.Wood}}, Rigidité : {{ (character$ | async)?.wand?.Rigidity}},
+                    Taille : {{ (character$ | async)?.wand?.Size}}
+                </p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="card mb-4">
+            <div class="card-body" *ngIf="(character$ | async)?.house != 0">
+                Maison : {{ displayHouse((character$ | async)!.house) }}
+            </div>
+            <div class="card-body" *ngIf="(character$ | async)?.house == 0">
+                <select (change)="onSelectChange($event)" class="form-select">
+                    <option value="0" selected>Sélectionne ta maison</option>
+                    <option value="1">Gryffrondor</option>
+                    <option value="2">Poufsouffle</option>
+                    <option value="3">Serdaigne</option>
+                    <option value="4">Serpentard</option>
+                </select>
+                <button *ngIf="selectedHouse != 0" class="mt-4 btn btn-primary" (click)="saveHouse()" >J'ai choisi !</button>
+            </div>
+        </div>
+        <div class="card mb-4">
+            <div class="card-body">
+                <p>Potions : {{ (character$ | async)?.tricking }}</p>
+                <p>Sortilèges et métamorphose : {{ (character$ | async)?.tricking }}</p>
+                <p>Défense contre les forces du mal : {{ (character$ | async)?.tricking }}</p>
+            </div>
+        </div>
+        <div class="card mb-4">
+            <div class="card-body" *ngIf="!(character$ | async)?.objects || !(character$ | async)?.objects?.length">
+                Pas d'objets
+            </div>
+            <div class="card-body" *ngIf="(character$ | async)?.objects && (character$ | async)?.objects?.length">
+                <ul class="list-group">
+                    <li class="list-group-item" *ngFor="let item of (character$ | async)?.objects">
+                        {{ item }}
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <div class="card mb-4">
+            <div class="card-body"
+                *ngIf="!(character$ | async)?.unlockedSpells || !(character$ | async)?.unlockedSpells?.length">
+                Pas de sortilèges disponibles
+            </div>
+            <div class="card-body"
+                *ngIf="(character$ | async)?.unlockedSpells && (character$ | async)?.unlockedSpells?.length">
+                <div class="col-md-2" *ngFor="let spell of (character$ | async)?.unlockedSpells">
+                    <app-spell [spell]="spell"></app-spell>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+
+    </div>
+</div>
